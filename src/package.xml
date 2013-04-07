@@ -116,23 +116,6 @@
         <name>Document</name>
     </types>
     <types>
-        <members>unfiled$public</members>
-        <members>unfiled$public/ContactFollowUpSAMPLE</members>
-        <members>unfiled$public/LeadsNewassignmentnotificationSAMPLE</members>
-        <members>unfiled$public/LeadsWebtoLeademailresponseSAMPLE</members>
-        <members>unfiled$public/SUPPORT%3A Self-Service New Comment %28SAMPLE%29</members>
-        <members>unfiled$public/SUPPORT%3A Self-Service New User Login %28SAMPLE%29</members>
-        <members>unfiled$public/SUPPORT%3A Self-Service Reset Password %28SAMPLE%29</members>
-        <members>unfiled$public/SUPPORTCaseResponsewithSolutionSAMPLE</members>
-        <members>unfiled$public/SUPPORTCaseescalationnotificationSAMPLE</members>
-        <members>unfiled$public/SUPPORTNewassignmentnotificationSAMPLE</members>
-        <members>unfiled$public/SUPPORTSelfServiceNewCommentNotificationSAMPLE</members>
-        <members>unfiled$public/SUPPORTSelfServiceNewUserLoginInformationSAMPLE</members>
-        <members>unfiled$public/SUPPORTSelfServiceResetPasswordSAMPLE</members>
-        <members>unfiled$public/SUPPORTWebtoCaseemailresponseSAMPLE</members>
-        <name>EmailTemplate</name>
-    </types>
-    <types>
         <members>*</members>
         <name>Flow</name>
     </types>
