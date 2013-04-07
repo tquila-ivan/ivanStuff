@@ -1,0 +1,17 @@
+<apex:page controller="ExaminationsController">
+
+	<apex:sectionHeader title="Examinations Homepage" />
+
+	<apex:pageBlock title="Available Exams">
+		<apex:form >
+			<apex:pageBlockTable value="{!forms.testFormsAvailable}" var="item" rendered="{!(forms.testFormsAvailable.size > 0)}">
+				<apex:column value="{!item.testForm.Name}"/> 
+				<apex:column headerValue="Action">
+					<apex:commandButton value="Create Examination Process" action="{!createExamination}" rendered="{!(!item.examinationCreated)}" />
+					<apex:outputText value="Already Created" rendered="{!item.examinationCreated}"/>
+				</apex:column> 
+			</apex:pageBlockTable> 
+		</apex:form>
+	</apex:pageBlock>
+	
+</apex:page>
