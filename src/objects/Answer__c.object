@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>These are the answers associated with a question.</description>
+    <enableActivities>false</enableActivities>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <fields>
+        <fullName>Answer__c</fullName>
+        <description>The answer to display to the exam taker.</description>
+        <externalId>false</externalId>
+        <label>Answer</label>
+        <length>32768</length>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Answer_is_Correct__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(AND(Selected__c, Correct__c),1,IF(AND(NOT(Selected__c),NOT(Correct__c)),1,0))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Answer is Correct</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Correct__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicates if this answer is a correct answer.</description>
+        <externalId>false</externalId>
+        <label>Correct</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Number__c</fullName>
+        <description>The sequence the answer should appear within the question.</description>
+        <externalId>false</externalId>
+        <label>Number</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Question__c</fullName>
+        <description>The related question that the answer belongs to.</description>
+        <externalId>false</externalId>
+        <label>Question</label>
+        <referenceTo>Question__c</referenceTo>
+        <relationshipLabel>Answers</relationshipLabel>
+        <relationshipName>Answers</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Selected__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Checkbox indicating if the exam taker has chosen this answer.</description>
+        <externalId>false</externalId>
+        <label>Selected</label>
+        <type>Checkbox</type>
+    </fields>
+    <label>Answer</label>
+    <nameField>
+        <label>Answer Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Answers</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <startsWith>Vowel</startsWith>
+</CustomObject>

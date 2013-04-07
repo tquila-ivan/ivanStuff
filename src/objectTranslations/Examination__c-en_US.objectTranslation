@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Examination</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Examinations</value>
+    </caseValues>
+    <fields>
+        <label><!-- Examination Status --></label>
+        <name>Examination_Status__c</name>
+        <picklistValues>
+            <masterLabel>Completed</masterLabel>
+            <translation><!-- Completed --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>In Progress</masterLabel>
+            <translation><!-- In Progress --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>New</masterLabel>
+            <translation><!-- New --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Examination Taker --></label>
+        <name>Examination_Taker__c</name>
+        <relationshipLabel><!-- Examinations --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Test Form --></label>
+        <name>Test_Form__c</name>
+        <relationshipLabel><!-- Examinations --></relationshipLabel>
+    </fields>
+    <startsWith>Vowel</startsWith>
+    <validationRules>
+        <errorMessage><!-- Examination Taker is required. --></errorMessage>
+        <name>Require_Examination_Taker</name>
+    </validationRules>
+</CustomObjectTranslation>

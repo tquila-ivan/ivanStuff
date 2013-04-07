@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>A question may be related to either a test form or an examination.  Test form questions are used as templates when creating examination questions.</description>
+    <enableActivities>false</enableActivities>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <fields>
+        <fullName>Correct__c</fullName>
+        <description>Checks to see if the number of correctly selected answers equals the number of correct answers.</description>
+        <externalId>false</externalId>
+        <formula>IF(Number_Correctly_Selected__c == Number_of_Correct_Answers__c,1,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Correct</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Examination__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The examination field indicates the examination that this question belongs to.</description>
+        <externalId>false</externalId>
+        <label>Examination</label>
+        <referenceTo>Examination__c</referenceTo>
+        <relationshipLabel>Questions</relationshipLabel>
+        <relationshipName>Questions</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Mark_For_Review__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This checkbox is used to indicate that the exam taker wishes to review the question.</description>
+        <externalId>false</externalId>
+        <label>Mark For Review</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Number_Correctly_Selected__c</fullName>
+        <description>Total number of correctly selected answers.</description>
+        <externalId>false</externalId>
+        <label>Number Correctly Selected</label>
+        <summarizedField>Answer__c.Answer_is_Correct__c</summarizedField>
+        <summaryFilterItems>
+            <field>Answer__c.Selected__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Answer__c.Question__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Number_of_Answers__c</fullName>
+        <description>The number of answers listed for the question.</description>
+        <externalId>false</externalId>
+        <label>Number of Answers</label>
+        <summaryForeignKey>Answer__c.Question__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Number_of_Correct_Answers__c</fullName>
+        <description>Total number of correct answers.</description>
+        <externalId>false</externalId>
+        <label>Number of Correct Answers</label>
+        <summaryFilterItems>
+            <field>Answer__c.Correct__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Answer__c.Question__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Question_Number__c</fullName>
+        <description>The question number indicates the order in which to display the questions in an examination.  This field is not used for exam template questions.</description>
+        <externalId>false</externalId>
+        <label>Question Number</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Question__c</fullName>
+        <description>This is the body which makes up a question.</description>
+        <externalId>false</externalId>
+        <label>Question</label>
+        <length>32768</length>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Test_Form__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The test form field indicates the test form that this question belongs to.</description>
+        <externalId>false</externalId>
+        <label>Test Form</label>
+        <referenceTo>Test_Form__c</referenceTo>
+        <relationshipLabel>Questions</relationshipLabel>
+        <relationshipName>Questions</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <label>Question</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Examination__c</columns>
+        <columns>Test_Form__c</columns>
+        <columns>Question_Number__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Examination_Questions</fullName>
+        <columns>NAME</columns>
+        <columns>Examination__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Examination__c</field>
+            <operation>notEqual</operation>
+        </filters>
+        <label>Examination Questions</label>
+    </listViews>
+    <listViews>
+        <fullName>Template_Questions</fullName>
+        <columns>NAME</columns>
+        <columns>Test_Form__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Test_Form__c</field>
+            <operation>notEqual</operation>
+        </filters>
+        <label>Template Questions</label>
+    </listViews>
+    <nameField>
+        <label>Question Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Questions</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>Private</sharingModel>
+    <validationRules>
+        <fullName>Restrict_Test_Form_and_Examination</fullName>
+        <active>true</active>
+        <description>Either Test Form or Examination should have a value, but not both.</description>
+        <errorConditionFormula>IF (
+AND( ISBLANK(Test_Form__c), ISBLANK(Examination__c)),
+true,
+IF (
+AND(NOT(ISBLANK(Test_Form__c)), NOT(ISBLANK(Examination__c))), true,
+False
+)
+)</errorConditionFormula>
+        <errorMessage>Exam Template or Examination is required, but both cannot have a value at the same time.</errorMessage>
+    </validationRules>
+</CustomObject>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectSharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <criteriaBasedRules>
+        <fullName>Share_Open_Exams_with_Takers</fullName>
+        <sharedTo>
+            <role>Exam_Taker</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Test_Status__c</field>
+            <operation>equals</operation>
+            <value>Open</value>
+        </criteriaItems>
+        <accessLevel>Read</accessLevel>
+        <name>Share Open Exams with Takers</name>
+    </criteriaBasedRules>
+</CustomObjectSharingRules>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Test Form</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Test Forms</value>
+    </caseValues>
+    <fields>
+        <label><!-- Account --></label>
+        <name>Account__c</name>
+        <relationshipLabel><!-- Test Forms --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Description --></label>
+        <name>Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Passing Score --></label>
+        <name>Passing_Score__c</name>
+    </fields>
+    <fields>
+        <label><!-- Test Status --></label>
+        <name>Test_Status__c</name>
+        <picklistValues>
+            <masterLabel>Closed</masterLabel>
+            <translation><!-- Closed --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Draft</masterLabel>
+            <translation><!-- Draft --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Obsolete</masterLabel>
+            <translation><!-- Obsolete --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Open</masterLabel>
+            <translation><!-- Open --></translation>
+        </picklistValues>
+    </fields>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Exam Status cannot be changed once the status is set to &apos;Obsolete&apos;. --></errorMessage>
+        <name>Obsolete_Tests_are_final</name>
+    </validationRules>
+</CustomObjectTranslation>

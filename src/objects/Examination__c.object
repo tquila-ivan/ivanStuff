@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>An examination is essentially an instance of a test for an exam taker.  When a new examination is created, it contains a copy of all the questions from the test form that make up the test.  Examinations may be performed in practice mode.</description>
+    <enableActivities>false</enableActivities>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <fields>
+        <fullName>Examination_Status__c</fullName>
+        <description>The examination status indicates whether an examination is New, In Progress, or Completed.</description>
+        <externalId>false</externalId>
+        <label>Examination Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>New</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>In Progress</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Completed</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Examination_Taker__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The examination taker field indicates the person taking the examination.</description>
+        <externalId>false</externalId>
+        <label>Examination Taker</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Examinations</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Test_Form__c</fullName>
+        <deleteConstraint>Restrict</deleteConstraint>
+        <description>The test form field indicates the test form that this examination was created from.</description>
+        <externalId>false</externalId>
+        <label>Test Form</label>
+        <referenceTo>Test_Form__c</referenceTo>
+        <relationshipLabel>Examinations</relationshipLabel>
+        <relationshipName>Examinations</relationshipName>
+        <required>true</required>
+        <type>Lookup</type>
+    </fields>
+    <label>Examination</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Examination Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Examinations</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>Private</sharingModel>
+    <startsWith>Vowel</startsWith>
+    <validationRules>
+        <fullName>Require_Examination_Taker</fullName>
+        <active>true</active>
+        <description>Examination Taker is required.</description>
+        <errorConditionFormula>ISBLANK(Examination_Taker__c)</errorConditionFormula>
+        <errorDisplayField>Examination_Taker__c</errorDisplayField>
+        <errorMessage>Examination Taker is required.</errorMessage>
+    </validationRules>
+</CustomObject>
