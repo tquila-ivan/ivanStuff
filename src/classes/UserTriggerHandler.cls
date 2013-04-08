@@ -92,7 +92,7 @@ public with sharing class UserTriggerHandler {
 			for (Test_Form__c form : openForms) {
 				if (newUser.Account_ID__c == form.Account__c) {
 					tempExamination = new Examination__c();
-					tempExamination.Name = newUser.FirstName +  ' ' + newUser.LastName + ' - ' + form.Name;
+					tempExamination.Name = newUser.FirstName + ' ' + newUser.LastName + ' - ' + form.Name;
 					tempExamination.Test_Form__c = form.Id;
 					tempExamination.Examination_Taker__c = newUser.Id;
 					tempExamination.OwnerId = form.OwnerId;
