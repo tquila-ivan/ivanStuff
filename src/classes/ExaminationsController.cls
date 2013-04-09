@@ -123,5 +123,6 @@ public without sharing class ExaminationsController {
 		if (getSelectedAnswers() != question.Number_of_Correct_Answers__c) 
 			throw new InvalidNumberSelectedException('Please select ' + question.Number_of_Correct_Answers__c + ' answer(s)');
 	}
+	
 	public class InvalidNumberSelectedException extends Exception {}
 }

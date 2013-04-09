@@ -1,8 +1,16 @@
 <apex:page standardController="Examination__c" extensions="ExaminationsController" action="{!onLoad}">
 
+<apex:includeScript value="{!$Resource.JQuery}"/>
+
 	<apex:sectionHeader subtitle="{!Examination__c.Name}" title="Examination" />
 	<apex:pageMessages id="mess"/>
 	<apex:form >
+	
+		<script>
+		function printLetter(number) {
+			return String.fromCharCode(64 + number) + ". ";
+		}
+		</script>
 		<apex:pageblock id="MainBlock" rendered="{!(!isEmpty)}">
 			<apex:pageblockSection rendered="{!Examination__c.Examination_Status__c == 'New'}" >
 				<apex:outputText value="Your examination is ready to start, press start to begin" /> &nbsp;&nbsp; 
@@ -23,6 +31,14 @@
 							<apex:inputCheckBox value="{!answer.Selected__c}"/>
 						</apex:column>
 						<apex:column >
+							
+							<script>
+								$(document).ready(function () {
+									$("#answer" + {!answer.Number__c}).text(String.fromCharCode(64 + {!answer.Number__c}) + ". ");
+								});
+							</script>
+							
+							<div id='answer{!answer.Number__c}' style="display:inline;"></div>
 							<apex:outputText value="{!answer.Answer__c}" />
 						</apex:column>
 					</apex:dataTable>
@@ -45,5 +61,9 @@
 		<apex:pageblock rendered="{!isEmpty}">
 			No questions in this examination, consult your administrator
 		</apex:pageblock>
+		
 	</apex:form>
+	
+	
+	
 </apex:page>
