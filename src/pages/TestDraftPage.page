@@ -1,15 +1,14 @@
-<apex:page standardController="Examination__c" extensions="ExaminationsController" action="{!onLoad}" sidebar="false" title="{!Examination__c.Name}">
+<apex:page standardController="Test_Form__c" sidebar="false" title="{!Test_Form__c.Name}" showHeader="true">
 
-	<apex:sectionHeader subtitle="{!Examination__c.Name}" title="Examination" />
-	<apex:pageMessages id="mess"/>
-	<apex:form >
+	<apex:sectionHeader subtitle="{!Test_Form__c.Name}" title="Test Form Draft" />
+	
+
+	<c:ExamComponent examId="{!Test_Form__c.Id}" 
+						objectType="Test_Form__c" />
+
+<!--	<apex:form >
 		<apex:pageblock id="MainBlock" rendered="{!(!isEmpty)}">
-			<apex:pageblockSection rendered="{!Examination__c.Examination_Status__c == 'New'}" >
-				<apex:outputText value="{!$Label.StartLabel}" /> &nbsp;&nbsp; 
-				<apex:commandButton action="{!start}" value="Start" rerender="MainBlock" />
-			</apex:pageblockSection>
-			
-			<apex:pageBlockSection collapsible="false" title="{!questionLabel}" columns="1" rendered="{!(Examination__c.Examination_Status__c == progressStatus && actualQuestion > 0 && !isReview && !isDone)}" >
+			<apex:pageBlockSection collapsible="false" title="{!questionLabel}" columns="1" rendered="{!(actualQuestion > 0 && !isReview && !isDone)}" >
 				<apex:outputPanel id="question">
 					<apex:outputText value="{!questionWrapper.question.Question__c}" />
 					<br />
@@ -50,12 +49,13 @@
 				<apex:outputText value="{!result}" />
 			</apex:pageBlockSection>
 			
-			<apex:pageBlockButtons location="bottom" rendered="{!Examination__c.Examination_Status__c == 'In Progress'}">
+			<apex:pageBlockButtons location="bottom">
 				<apex:commandButton value="Previous" action="{!previous}" rendered="{!(actualQuestion > 1 && !isReview)}" rerender="MainBlock,mess" />
 				<apex:commandButton value="Next" action="{!next}" rendered="{!(actualQuestion < questionCount  && !isReview)}" rerender="MainBlock,mess" />
 				<apex:commandButton value="Review" action="{!review}" rerender="MainBlock,mess" rendered="{!(!isReview && actualQuestion < questionCount)}"/>
 				<apex:commandButton value="Finish" action="{!finish}" rendered="{!(isReview && !isDone)}" rerender="MainBlock,mess" />
 				<apex:commandButton value="Review & Finish" action="{!finish}" rendered="{!(actualQuestion == questionCount && !isDone && !isReview)}" rerender="MainBlock,mess" />
+				<apex:commandButton value="Close Window" onclick="window.close();" />
 			</apex:pageBlockButtons>
 		</apex:pageblock>	
 		
@@ -63,5 +63,5 @@
 			{!$Label.EmptyLabel}
 		</apex:pageblock>
 
-	</apex:form>
+	</apex:form> -->
 </apex:page>

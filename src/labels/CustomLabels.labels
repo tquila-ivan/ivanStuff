@@ -1,3 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata"/>
-
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>AnswerNumberNotSet</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AnswerNumberNotSet</shortDescription>
+        <value>Answer Number Not Set</value>
+    </labels>
+    <labels>
+        <fullName>EmptyLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EmptyLabel</shortDescription>
+        <value>No questions in this examination, consult your administrator</value>
+    </labels>
+    <labels>
+        <fullName>FailLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FailLabel</shortDescription>
+        <value>You scored {0} out of a possible {1} points. You have FAILED the examination!</value>
+    </labels>
+    <labels>
+        <fullName>MarkReviewLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MarkReviewLabel</shortDescription>
+        <value>Mark for Review</value>
+    </labels>
+    <labels>
+        <fullName>PassLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PassLabel</shortDescription>
+        <value>You scored {0} out of a possible {1} points. You have PASSED the examination!</value>
+    </labels>
+    <labels>
+        <fullName>QuestionLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QuestionLabel</shortDescription>
+        <value>Question {0} of {1}</value>
+    </labels>
+    <labels>
+        <fullName>ReviewLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ReviewLabel</shortDescription>
+        <value>Review your Answers</value>
+    </labels>
+    <labels>
+        <fullName>SelectLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SelectLabel</shortDescription>
+        <value>(Select {0} answers)</value>
+    </labels>
+    <labels>
+        <fullName>StartLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>StartLabel</shortDescription>
+        <value>Your examination is ready to start, press start to begin</value>
+    </labels>
+</CustomLabels>

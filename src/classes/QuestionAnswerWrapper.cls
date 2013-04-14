@@ -51,8 +51,13 @@ public with sharing class QuestionAnswerWrapper {
 	public class AnswerWrapper {
 		public String letter {
 			get {
-				return integerLetter.get(answer.Number__c);
+				if (integerLetter.containsKey(String.valueOf(answer.Number__c)))
+					letter = integerLetter.get(String.valueOf(answer.Number__c)).letter__c;
+				else
+					letter = System.Label.AnswerNumberNotSet;
+				return letter;
 			}
+			set;
 		}
 		
 		public String letterAndAnswer {
@@ -63,36 +68,11 @@ public with sharing class QuestionAnswerWrapper {
 		
 		public Answer__c answer {get;set;}
 		
-		private Map<Decimal,String> integerLetter = new Map<Decimal,String>();
+		private Map<String,IntToLetter__c> integerLetter = new Map<String,IntToLetter__c>();
 		
 		public AnswerWrapper (Answer__c ans) {
 			answer = ans;
-			integerLetter.put(1,'A');
-			integerLetter.put(2,'B');
-			integerLetter.put(3,'C');
-			integerLetter.put(4,'D');
-			integerLetter.put(5,'E');
-			integerLetter.put(6,'F');
-			integerLetter.put(7,'G');
-			integerLetter.put(8,'H');
-			integerLetter.put(9,'I');
-			integerLetter.put(10,'J');
-			integerLetter.put(11,'K');
-			integerLetter.put(12,'L');
-			integerLetter.put(13,'M');
-			integerLetter.put(14,'N');
-			integerLetter.put(15,'O');
-			integerLetter.put(16,'P');
-			integerLetter.put(17,'Q');
-			integerLetter.put(18,'R');
-			integerLetter.put(19,'S');
-			integerLetter.put(20,'T');
-			integerLetter.put(21,'U');
-			integerLetter.put(22,'V');
-			integerLetter.put(23,'W');
-			integerLetter.put(24,'X');
-			integerLetter.put(25,'Y');
-			integerLetter.put(26,'Z');
+			integerLetter = IntToLetter__c.getAll();
 		}
 	}
 }

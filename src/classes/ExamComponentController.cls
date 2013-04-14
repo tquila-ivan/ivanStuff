@@ -1,13 +1,41 @@
-public without sharing class ExaminationsController {
+public with sharing class ExamComponentController {
 
-	private Examination__c exam;
-	private static final String completedStatus = 'Completed';
-	public String progressStatus {
-		get {
-			return 'In Progress';
+	public String examTestId {get;
+		set {
+			if (examTestId == null) {
+				List<Question__c> questions = [Select 
+								Question__c, 
+								Question_Number__c,
+								Number_of_Correct_Answers__c,
+								Number_Correctly_Selected__c,
+								Mark_For_Review__c,
+								(Select
+									Number__c,
+									Selected__c,
+									Answer__c
+								 from Answers__r
+								 order by Number__c asc
+								)
+							 from Question__c
+							 where Test_Form__c = :value
+							 order by Question_Number__c asc
+							];
+				
+				System.debug('Id ' + value + ' Cantidad --- ' + questions.size());
+				if (questions.size() == 0)
+					isEmpty = true;
+				else {
+					questionAnswerWrapperList = Commons.fillWrapperList(questions);
+					questionCount = questionAnswerWrapperList.size();
+				}
+			}
 		}
 	}
-	private static final String newStatus = 'New';
+	public String examTestType {get;set;}
+	private sObject exam;
+	private static final String draftStatus = 'Draft';
+	
+	public Boolean isDraft {get;set;}
 	
 	public Integer actualQuestion {
 		get {
@@ -26,7 +54,7 @@ public without sharing class ExaminationsController {
 	
 	public String selectLabel{
 		get {
-			return String.format(System.Label.SelectLabel, new List<String>{String.valueOf(questionWrapper.question.Number_of_Correct_Answers__c)});
+			return 'Selecciona';//String.format(System.Label.SelectLabel, new List<String>{String.valueOf(questionWrapper.question.Number_of_Correct_Answers__c)});
 		}
 	}
 	
@@ -47,7 +75,14 @@ public without sharing class ExaminationsController {
 		}
 		set;
 	}
-	public Integer questionCount {get;set;}
+	public Integer questionCount {
+		get {
+			if (questionCount == null)
+				questionCount = 0;
+			return questionCount;
+		}
+		set;
+	}
 	public Boolean isEmpty {get;set;}
 	public Boolean isReview {
 		get {
@@ -61,47 +96,8 @@ public without sharing class ExaminationsController {
 	
 	public String result {get;set;}
 	
-	public ExaminationsController (ApexPages.StandardController stdController) {
-		
-		exam = (Examination__c) stdController.getRecord();
-
-		List<Question__c> questions = [Select 
-										Question__c, 
-										Question_Number__c,
-										Number_of_Correct_Answers__c,
-										Number_Correctly_Selected__c,
-										Mark_For_Review__c,
-										(Select
-											Number__c,
-											Selected__c,
-											Answer__c
-										 from Answers__r
-										 order by Number__c asc
-										)
-									 from Question__c
-									 where Examination__c = :exam.Id
-									 order by Question_Number__c asc
-									];
-		if (questions.size() == 0)
-			isEmpty = true;
-		else {
-			questionAnswerWrapperList = Commons.fillWrapperList(questions);
-			questionCount = questionAnswerWrapperList.size();
-		}
-	}
-	
-	public void start() {
-		exam.Examination_Status__c = progressStatus;
-		update exam;
-		actualQuestion = 1;
-	}
-	
-	public void onLoad () {
-		if(exam.Examination_Status__c == completedStatus)
-		{
-			isReview = true;
-			finish();
-		}	
+	public ExamComponentController () {
+		isDraft = true;	
 	}
 	
 	public void next() {
@@ -159,9 +155,6 @@ public without sharing class ExaminationsController {
 			else {
 				result = String.format(System.Label.FailLabel, new List<String>{String.valueOf(resultClass.correctAnswers), String.valueOf(questionCount)});
 			}
-						
-			exam.Examination_Status__c = completedStatus;
-			update exam;
 		}
 		else
 			review();
