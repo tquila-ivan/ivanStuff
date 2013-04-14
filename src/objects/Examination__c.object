@@ -30,7 +30,9 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <type>Default</type>
+        <content>Examination</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
     </actionOverrides>
     <deploymentStatus>Deployed</deploymentStatus>
     <description>An examination is essentially an instance of a test for an exam taker.  When a new examination is created, it contains a copy of all the questions from the test form that make up the test.  Examinations may be performed in practice mode.</description>

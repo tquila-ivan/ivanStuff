@@ -1,6 +1,5 @@
 public without sharing class ExaminationsController {
 
-	public List<Question__c> questions {get;set;}
 	private final Examination__c exam;
 	public Integer actualQuestion {
 		get {
@@ -10,24 +9,32 @@ public without sharing class ExaminationsController {
 		}
 		set;
 	}
-	public Integer questionCount {get;set;}
-	public Boolean isEmpty {get;set;}
-	public Boolean isReview {get;set;}
-	public Question__c question {
+	public List<QuestionAnswerWrapper> questionAnswerWrapperList {
 		get {
-			if (questionCount >= actualQuestion && actualQuestion > 0) {
-				return questions[actualQuestion - 1];
-			}
-			return question;
+			if (questionAnswerWrapperList == null)
+				questionAnswerWrapperList = new List<QuestionAnswerWrapper>();
+			return questionAnswerWrapperList;
 		}
 		set;
 	}
+	public QuestionAnswerWrapper questionWrapper {
+		get {
+			if (questionCount >= actualQuestion && actualQuestion > 0) {
+				return questionAnswerWrapperList[actualQuestion - 1];
+			}
+			return questionWrapper;
+		}
+		set;
+	}
+	public Integer questionCount {get;set;}
+	public Boolean isEmpty {get;set;}
+	public Boolean isReview {get;set;}
 	
 	public ExaminationsController (ApexPages.StandardController stdController) {
 		
 		exam = (Examination__c) stdController.getRecord();
 		//actualQuestion = 0;
-		questions = [Select 
+		List<Question__c> questions = [Select 
 						Question__c, 
 						Question_Number__c,
 						Number_of_Correct_Answers__c,
@@ -47,6 +54,14 @@ public without sharing class ExaminationsController {
 		questionCount = questions.size();
 		if (questionCount == 0)
 			isEmpty = true;
+		else
+			fillWrapperList(questions);
+	}
+	
+	public void fillWrapperList (List<Question__c> questions) {
+		for (Question__c quest : questions) {
+			questionAnswerWrapperList.add(new QuestionAnswerWrapper(quest));
+		}
 	}
 	
 	public void start() {
@@ -65,8 +80,8 @@ public without sharing class ExaminationsController {
 		try {
 			validateSelected();
 			//Should I or Shouldn't I save the answers???
-			update question.Answers__r;
-			update question;
+			update questionWrapper.getAnswers();
+			update questionWrapper.question;
 			actualQuestion += 1;
 		}
 		catch (InvalidNumberSelectedException ex) {
@@ -81,8 +96,8 @@ public without sharing class ExaminationsController {
 	public void previous() {
 		try {
 			validateSelected();
-			update question.Answers__r;
-			update question;
+			update questionWrapper.getAnswers();
+			update questionWrapper.question;
 			actualQuestion -= 1;
 		}
 		catch (InvalidNumberSelectedException ex) {
@@ -97,8 +112,8 @@ public without sharing class ExaminationsController {
 	public void review() {
 		try {
 			validateSelected();
-			update question.Answers__r;
-			update question;
+			update questionWrapper.getAnswers();
+			update questionWrapper.question;
 			isReview = true;
 		}
 		catch (InvalidNumberSelectedException ex) {
@@ -110,18 +125,13 @@ public without sharing class ExaminationsController {
 		}
 	}
 	
-	public Integer getSelectedAnswers() {
-		Integer selected = 0;
-		for (Answer__c answer : question.Answers__r) {
-			if (answer.Selected__c)
-				selected++;
-		}
-		return selected;
+	public void goToQuestion() {
+		isReview = false;
 	}
 	
 	public void validateSelected() {
-		if (getSelectedAnswers() != question.Number_of_Correct_Answers__c) 
-			throw new InvalidNumberSelectedException('Please select ' + question.Number_of_Correct_Answers__c + ' answer(s)');
+		if (questionWrapper.getSelectedAnswers().size() != questionWrapper.question.Number_of_Correct_Answers__c) 
+			throw new InvalidNumberSelectedException('Please select ' + questionWrapper.question.Number_of_Correct_Answers__c + ' answer(s)');
 	}
 	
 	public class InvalidNumberSelectedException extends Exception {}

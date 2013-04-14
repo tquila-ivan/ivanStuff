@@ -1,45 +1,29 @@
-<apex:page standardController="Examination__c" extensions="ExaminationsController" action="{!onLoad}">
-
-<apex:includeScript value="{!$Resource.JQuery}"/>
+<apex:page standardController="Examination__c" extensions="ExaminationsController" action="{!onLoad}" sidebar="false" title="{!Examination__c.Name}">
 
 	<apex:sectionHeader subtitle="{!Examination__c.Name}" title="Examination" />
 	<apex:pageMessages id="mess"/>
 	<apex:form >
-	
-		<script>
-		function printLetter(number) {
-			return String.fromCharCode(64 + number) + ". ";
-		}
-		</script>
 		<apex:pageblock id="MainBlock" rendered="{!(!isEmpty)}">
 			<apex:pageblockSection rendered="{!Examination__c.Examination_Status__c == 'New'}" >
 				<apex:outputText value="Your examination is ready to start, press start to begin" /> &nbsp;&nbsp; 
 				<apex:commandButton action="{!start}" value="Start" rerender="MainBlock" />
 			</apex:pageblockSection>
 			
-			<apex:pageBlockSection collapsible="false" title="Question {!actualQuestion} of {!questionCount}" columns="1" rendered="{!(Examination__c.Examination_Status__c == 'In Progress' && actualQuestion > 0)}" >
+			<apex:pageBlockSection collapsible="false" title="Question {!actualQuestion} of {!questionCount}" columns="1" rendered="{!(Examination__c.Examination_Status__c == 'In Progress' && actualQuestion > 0 && !isReview)}" >
 				<apex:outputPanel id="question">
-					<apex:outputText value="{!question.Question__c}" />
+					<apex:outputText value="{!questionWrapper.question.Question__c}" />
 					<br />
 					<br />
-					<apex:outputText value="(Select {!question.Number_of_Correct_Answers__c} answers)" />
+					<apex:outputText value="(Select {!questionWrapper.question.Number_of_Correct_Answers__c} answers)" />
 				</apex:outputPanel>
 				
 				<apex:outputPanel id="answers">
-					<apex:dataTable value="{!question.Answers__r}" var="answer">
+					<apex:dataTable value="{!questionWrapper.answerWrapperList}" var="answerWrapper">
 						<apex:column >
-							<apex:inputCheckBox value="{!answer.Selected__c}"/>
+							<apex:inputCheckBox value="{!answerWrapper.answer.Selected__c}"/>
 						</apex:column>
 						<apex:column >
-							
-							<script>
-								$(document).ready(function () {
-									$("#answer" + {!answer.Number__c}).text(String.fromCharCode(64 + {!answer.Number__c}) + ". ");
-								});
-							</script>
-							
-							<div id='answer{!answer.Number__c}' style="display:inline;"></div>
-							<apex:outputText value="{!answer.Answer__c}" />
+							<apex:outputText value="{!answerWrapper.letterAndAnswer}" />
 						</apex:column>
 					</apex:dataTable>
 				</apex:outputPanel>
@@ -47,11 +31,22 @@
 				<br />
 				
 				<apex:outputPanel id="markReview">
-					<apex:inputCheckBox value="{!question.Mark_For_Review__c}"/> Mark for review
+					<apex:inputCheckBox value="{!questionWrapper.question.Mark_For_Review__c}"/> Mark for review
 				</apex:outputPanel>
 			</apex:pageBlockSection>
 			
-			<apex:pageBlockButtons location="bottom" rendered="{!Examination__c.Examination_Status__c == 'In Progress'}">
+			<apex:pageBlockSection rendered="{!isReview}" title="Review your answers" collapsible="false" columns="3">
+				<apex:repeat value="{!questionAnswerWrapperList}" var="quest" id="reviewAnswers">
+					<apex:outputPanel >
+						<apex:outputText value="* " rendered="{!quest.question.Mark_For_Review__c}" />
+						<apex:commandlink value="{!quest.reviewString}" action="{!goToQuestion}" rerender="MainBlock,mess">
+							<apex:param name="questionNumber" value="{!quest.question.Question_Number__c}" assignTo="{!actualQuestion}" />
+						</apex:commandlink>
+					</apex:outputPanel>
+				</apex:repeat>
+			</apex:pageBlockSection>
+			
+			<apex:pageBlockButtons location="bottom" rendered="{!Examination__c.Examination_Status__c == 'In Progress' && !isReview}">
 				<apex:commandButton value="Previous" action="{!previous}" rendered="{!(actualQuestion > 1)}" rerender="MainBlock,mess" />
 				<apex:commandButton value="Next" action="{!next}" rendered="{!(actualQuestion < questionCount)}" rerender="MainBlock,mess" />
 				<apex:commandButton value="Review" action="{!review}" rerender="MainBlock,mess" />
@@ -61,7 +56,7 @@
 		<apex:pageblock rendered="{!isEmpty}">
 			No questions in this examination, consult your administrator
 		</apex:pageblock>
-		
+
 	</apex:form>
 	
 	

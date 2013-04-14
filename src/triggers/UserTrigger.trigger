@@ -8,7 +8,7 @@ trigger UserTrigger on User (after insert, after update) {
     }
   
   //Uncomment for tests  
-    if (trigger.isAfter && trigger.isUpdate) {
-        handler.OnAfterInsert(trigger.new);
-    }
+   // if (trigger.isAfter && trigger.isUpdate) {
+   //     handler.OnAfterInsert(trigger.new);
+   // }
 }
