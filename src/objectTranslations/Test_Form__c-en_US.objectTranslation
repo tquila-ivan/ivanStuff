@@ -46,4 +46,8 @@
         <errorMessage><!-- Exam Status cannot be changed once the status is set to &apos;Obsolete&apos;. --></errorMessage>
         <name>Obsolete_Tests_are_final</name>
     </validationRules>
+    <webLinks>
+        <label><!-- Simulate_Draft --></label>
+        <name>Simulate_Draft</name>
+    </webLinks>
 </CustomObjectTranslation>
