@@ -1,13 +1,10 @@
-<apex:page standardController="Test_Form__c" sidebar="false" title="{!Test_Form__c.Name}" showHeader="true">
+<apex:page standardController="Test_Form__c" extensions="TestDraftController" sidebar="false" title="{!Test_Form__c.Name}" showHeader="true">
 
-	<apex:sectionHeader subtitle="{!Test_Form__c.Name}" title="Test Form Draft" />
+	<apex:sectionHeader subtitle="{!Test_Form__c.Name}" title="{!$ObjectType.Test_Form__c.Label}" />
+	<apex:pageMessages id="mess" />
 	
-
-	<c:ExamComponent examId="{!Test_Form__c.Id}" 
-						objectType="Test_Form__c" />
-
-<!--	<apex:form >
-		<apex:pageblock id="MainBlock" rendered="{!(!isEmpty)}">
+	<apex:form >
+		<apex:pageblock id="MainBlock" rendered="{!(!isEmpty && Test_Form__c.Test_Status__c == 'Draft')}">
 			<apex:pageBlockSection collapsible="false" title="{!questionLabel}" columns="1" rendered="{!(actualQuestion > 0 && !isReview && !isDone)}" >
 				<apex:outputPanel id="question">
 					<apex:outputText value="{!questionWrapper.question.Question__c}" />
@@ -45,7 +42,7 @@
 				</apex:repeat>
 			</apex:pageBlockSection>
 			
-			<apex:pageBlockSection rendered="{!isDone}" title="Test Results" collapsible="false" columns="1">
+			<apex:pageBlockSection rendered="{!isDone}" title="{!$Label.TestResults}" collapsible="false" columns="1">
 				<apex:outputText value="{!result}" />
 			</apex:pageBlockSection>
 			
@@ -62,6 +59,14 @@
 		<apex:pageblock rendered="{!isEmpty}">
 			{!$Label.EmptyLabel}
 		</apex:pageblock>
+		
+		<apex:pageblock rendered="{!(Test_Form__c.Test_Status__c != 'Draft')}">
+			{!$Label.TestFormNotDraft}
+			
+			<apex:pageBlockButtons location="bottom">
+				<apex:commandButton value="{!$Label.CloseWindow}" onclick="window.close();" />
+			</apex:pageBlockButtons>
+		</apex:pageblock>
 
-	</apex:form> -->
+	</apex:form>
 </apex:page>

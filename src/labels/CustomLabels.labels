@@ -8,6 +8,13 @@
         <value>Answer Number Not Set</value>
     </labels>
     <labels>
+        <fullName>CloseWindow</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CloseWindow</shortDescription>
+        <value>Close Window</value>
+    </labels>
+    <labels>
         <fullName>EmptyLabel</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -20,6 +27,13 @@
         <protected>false</protected>
         <shortDescription>FailLabel</shortDescription>
         <value>You scored {0} out of a possible {1} points. You have FAILED the examination!</value>
+    </labels>
+    <labels>
+        <fullName>FatalError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FatalError</shortDescription>
+        <value>Please contact your administrator, an unexpected error has occurred</value>
     </labels>
     <labels>
         <fullName>MarkReviewLabel</fullName>
@@ -62,5 +76,19 @@
         <protected>false</protected>
         <shortDescription>StartLabel</shortDescription>
         <value>Your examination is ready to start, press start to begin</value>
+    </labels>
+    <labels>
+        <fullName>TestFormNotDraft</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TestFormNotDraft</shortDescription>
+        <value>In order to simulate a Test Form, it must be a draft.</value>
+    </labels>
+    <labels>
+        <fullName>TestResults</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TestResults</shortDescription>
+        <value>Test Results</value>
     </labels>
 </CustomLabels>

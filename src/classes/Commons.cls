@@ -1,4 +1,4 @@
-public with sharing class Commons {
+public without sharing class Commons {
 	
 	public class InvalidNumberSelectedException extends Exception {}
 	
@@ -31,7 +31,6 @@ public with sharing class Commons {
 					
 		Double actualPercent = Double.valueOf(correctAnswers) / Double.valueOf(totalQuestions) * 100.0;
 		
-		System.debug('Actual --- ' + actualPercent + ' --- PassP --- ' + passPercent);
 		return (new resultClass(actualPercent >= passPercent, correctAnswers));
 	}
 	

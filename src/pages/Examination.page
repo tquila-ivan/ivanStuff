@@ -1,6 +1,6 @@
 <apex:page standardController="Examination__c" extensions="ExaminationsController" action="{!onLoad}" sidebar="false" title="{!Examination__c.Name}">
 
-	<apex:sectionHeader subtitle="{!Examination__c.Name}" title="Examination" />
+	<apex:sectionHeader subtitle="{!Examination__c.Name}" title="{!$ObjectType.Examination__c.Label}" />
 	<apex:pageMessages id="mess"/>
 	<apex:form >
 		<apex:pageblock id="MainBlock" rendered="{!(!isEmpty)}">
@@ -46,11 +46,11 @@
 				</apex:repeat>
 			</apex:pageBlockSection>
 			
-			<apex:pageBlockSection rendered="{!isDone}" title="Test Results" collapsible="false" columns="1">
+			<apex:pageBlockSection rendered="{!isDone}" title="{!$Label.TestResults}" collapsible="false" columns="1">
 				<apex:outputText value="{!result}" />
 			</apex:pageBlockSection>
 			
-			<apex:pageBlockButtons location="bottom" rendered="{!Examination__c.Examination_Status__c == 'In Progress'}">
+			<apex:pageBlockButtons location="bottom" rendered="{!Examination__c.Examination_Status__c == progressStatus}">
 				<apex:commandButton value="Previous" action="{!previous}" rendered="{!(actualQuestion > 1 && !isReview)}" rerender="MainBlock,mess" />
 				<apex:commandButton value="Next" action="{!next}" rendered="{!(actualQuestion < questionCount  && !isReview)}" rerender="MainBlock,mess" />
 				<apex:commandButton value="Review" action="{!review}" rerender="MainBlock,mess" rendered="{!(!isReview && actualQuestion < questionCount)}"/>

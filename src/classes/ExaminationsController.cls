@@ -112,7 +112,7 @@ public without sharing class ExaminationsController {
 			ApexPages.addMessages(ex);
 		}
 		catch (Exception exc) {
-			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,'Please contact your administrator, an unexpected error has occurred');
+			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,System.Label.FatalError);
 			ApexPages.addMessage(message);
 		}
 	}
@@ -125,7 +125,7 @@ public without sharing class ExaminationsController {
 			ApexPages.addMessages(ex);
 		}
 		catch (Exception exc) {
-			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,'Please contact your administrator, an unexpected error has occurred');
+			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,System.Label.FatalError);
 			ApexPages.addMessage(message);
 		}
 	}
@@ -138,7 +138,7 @@ public without sharing class ExaminationsController {
 			ApexPages.addMessages(ex);
 		}
 		catch (Exception exc) {
-			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,'Please contact your administrator, an unexpected error has occurred');
+			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,System.Label.FatalError);
 			ApexPages.addMessage(message);
 		}
 	}

@@ -1,4 +1,4 @@
-public with sharing class TestDraftController {
+public without sharing class TestDraftController {
 
 	private Test_Form__c exam;
 	private static final String draftStatus = 'Draft';
@@ -100,7 +100,7 @@ public with sharing class TestDraftController {
 			ApexPages.addMessages(ex);
 		}
 		catch (Exception exc) {
-			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,'Please contact your administrator, an unexpected error has occurred');
+			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,System.Label.FatalError);
 			ApexPages.addMessage(message);
 		}
 	}
@@ -113,7 +113,7 @@ public with sharing class TestDraftController {
 			ApexPages.addMessages(ex);
 		}
 		catch (Exception exc) {
-			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,'Please contact your administrator, an unexpected error has occurred');
+			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,System.Label.FatalError);
 			ApexPages.addMessage(message);
 		}
 	}
@@ -126,7 +126,7 @@ public with sharing class TestDraftController {
 			ApexPages.addMessages(ex);
 		}
 		catch (Exception exc) {
-			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,'Please contact your administrator, an unexpected error has occurred');
+			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,System.Label.FatalError);
 			ApexPages.addMessage(message);
 		}
 	}
