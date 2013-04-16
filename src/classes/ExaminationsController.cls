@@ -1,3 +1,12 @@
+/*
+ * Class that controls the behaviour of the Examination Page, this allows Exam Taker users to
+ * take their examinations properly.
+ * I used a different controller and page for Examinations and Test Forms in order to allow tailoring
+ * of the experience of Takers and Administrators, having differences regarding the Status management, the question 
+ * and answer numbers, giving the possibility to close the window at any time, and any other future different behaviour needed
+ * Being that so, I created a Commons class that has the common methods used by both of the controllers and that provide the main
+ * functionalities of a test, providing ability to reuse for other different test experiences.  
+ */
 public without sharing class ExaminationsController {
 
 	private Examination__c exam;
@@ -7,6 +16,7 @@ public without sharing class ExaminationsController {
 			return 'In Progress';
 		}
 	}
+	
 	private static final String newStatus = 'New';
 	
 	public Integer actualQuestion {
@@ -114,6 +124,10 @@ public without sharing class ExaminationsController {
 		catch (Exception exc) {
 			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,System.Label.FatalError);
 			ApexPages.addMessage(message);
+			
+			//Create error log for the administrator to be able to know what happened
+			ErrorLog__c errorLog = new ErrorLog__c(Object__c = Schema.SObjectType.Examination__c.getName(), Description__c = exc.getMessage() + ' -- Stack: ' + exc.getStackTraceString());
+			insert errorLog;
 		}
 	}
 	
@@ -127,6 +141,10 @@ public without sharing class ExaminationsController {
 		catch (Exception exc) {
 			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,System.Label.FatalError);
 			ApexPages.addMessage(message);
+			
+			//Create error log for the administrator to be able to know what happened
+			ErrorLog__c errorLog = new ErrorLog__c(Object__c = Schema.SObjectType.Examination__c.getName(), Description__c = exc.getMessage() + ' -- Stack: ' + exc.getStackTraceString());
+			insert errorLog;
 		}
 	}
 	
@@ -140,6 +158,10 @@ public without sharing class ExaminationsController {
 		catch (Exception exc) {
 			ApexPages.Message message = new ApexPages.Message(ApexPages.Severity.FATAL,System.Label.FatalError);
 			ApexPages.addMessage(message);
+			
+			//Create error log for the administrator to be able to know what happened
+			ErrorLog__c errorLog = new ErrorLog__c(Object__c = Schema.SObjectType.Examination__c.getName(), Description__c = exc.getMessage() + ' -- Stack: ' + exc.getStackTraceString());
+			insert errorLog;
 		}
 	}
 	

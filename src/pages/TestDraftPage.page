@@ -4,7 +4,7 @@
 	<apex:pageMessages id="mess" />
 	
 	<apex:form >
-		<apex:pageblock id="MainBlock" rendered="{!(!isEmpty && Test_Form__c.Test_Status__c == 'Draft')}">
+		<apex:pageblock id="MainBlock" rendered="{!(!isEmpty && Test_Form__c.Test_Status__c == draftStatus)}">
 			<apex:pageBlockSection collapsible="false" title="{!questionLabel}" columns="1" rendered="{!(actualQuestion > 0 && !isReview && !isDone)}" >
 				<apex:outputPanel id="question">
 					<apex:outputText value="{!questionWrapper.question.Question__c}" />

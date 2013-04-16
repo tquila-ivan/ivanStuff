@@ -2,6 +2,7 @@
 
 	<apex:sectionHeader subtitle="{!Examination__c.Name}" title="{!$ObjectType.Examination__c.Label}" />
 	<apex:pageMessages id="mess"/>
+
 	<apex:form >
 		<apex:pageblock id="MainBlock" rendered="{!(!isEmpty)}">
 			<apex:pageblockSection rendered="{!Examination__c.Examination_Status__c == 'New'}" >
