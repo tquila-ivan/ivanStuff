@@ -1,9 +1,10 @@
 /**
- * 
+ * Test class that tests the Commons Class
  */
 @isTest
 private class CommonsTest {
 	
+	//Evaluate a pass result of the calculateResult method for Test Forms
     static testMethod void test_Commons_calculateResult_TestForms_Pass() {
         Test_Form__c testForm = TestUtilities.createTestForm(true);
         
@@ -22,6 +23,7 @@ private class CommonsTest {
         }
     }
     
+    //Evaluate a fail result of the calculateResult method for Test Forms
     static testMethod void test_Commons_calculateResult_TestForms_Fail() {
         Test_Form__c testForm = TestUtilities.createTestForm(false);
 		
@@ -40,6 +42,7 @@ private class CommonsTest {
         }
     }
     
+    //Evaluate a pass result of the calculateResult method for Examinations
     static testMethod void test_Commons_calculateResult_Examinations_Pass() {
         
         List<User> takers = TestUtilities.getExamTakerUsers(1);
@@ -59,6 +62,7 @@ private class CommonsTest {
         }
     }
     
+    //Evaluate a fail result of the calculateResult method for Examinations
     static testMethod void test_Commons_calculateResult_Examinations_Fail() {
         List<User> takers = TestUtilities.getExamTakerUsers(1);
         insert takers;
@@ -77,6 +81,7 @@ private class CommonsTest {
         }
     }
     
+    //Test of the next() functionality
     static testMethod void test_Commons_next() {
 							 
         QuestionAnswerWrapper questionWrapper = TestUtilities.createCorrectQuestion();
@@ -96,6 +101,7 @@ private class CommonsTest {
         }
     }
     
+    //Test of the next() functionality with an exception
     static testMethod void test_Commons_next_Exception() {
         QuestionAnswerWrapper questionWrapper = TestUtilities.createWrongQuestion();
         Integer actualQuestion = 1;
@@ -120,6 +126,7 @@ private class CommonsTest {
         }
     }
     
+    //Test of the previous() functionality
     static testMethod void test_Commons_previous() {
         QuestionAnswerWrapper questionWrapper = TestUtilities.createCorrectQuestion();
         Integer actualQuestion = 2;
@@ -139,6 +146,7 @@ private class CommonsTest {
         }
     }
     
+    //Test of the previous() functionality with an exception
     static testMethod void test_Commons_previous_Exception() {
 		QuestionAnswerWrapper questionWrapper = TestUtilities.createWrongQuestion();
         Integer actualQuestion = 2;
@@ -163,6 +171,7 @@ private class CommonsTest {
         }
     }
     
+    //Test of the review() functionality
     static testMethod void test_Commons_review() {
         QuestionAnswerWrapper questionWrapper = TestUtilities.createCorrectQuestion();
         Integer actualQuestion = 1;
@@ -181,6 +190,7 @@ private class CommonsTest {
         }
     }
     
+    //Test of the review() functionality with an exception
     static testMethod void test_Commons_review_Exception() {
         QuestionAnswerWrapper questionWrapper = TestUtilities.createWrongQuestion();
 
@@ -205,6 +215,7 @@ private class CommonsTest {
         }
     }
     
+    //Testthe filling of the wrapper list
     static testMethod void test_Commons_fillWrapperList() {
         List<Account> accounts = TestUtilities.createAccounts(1);
         insert accounts;
@@ -222,6 +233,7 @@ private class CommonsTest {
         System.assertEquals(questionWrapperList.size(),questions.size());
     }
     
+    ////Test the lack of error filling an empty wrapper list
     static testMethod void test_Commons_fillWrapperList_Empty() {
         
         List<Question__c> questions = new List<Question__c>();

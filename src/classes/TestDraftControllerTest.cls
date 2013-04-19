@@ -1,9 +1,10 @@
 /**
- * 
+ * Test class that tests Test Draft controller functionality
  */
 @isTest
 private class TestDraftControllerTest {
 	
+	//Common method to create controller
 	private static TestDraftController createController(Boolean passed) {
 		
 		Test_Form__c testForm = TestUtilities.createTestForm(passed);
@@ -12,66 +13,17 @@ private class TestDraftControllerTest {
 		TestDraftController testController = new TestDraftController(standardCtlr);
 		return testController;
 	}
-/*
-    static testMethod void test_TestDraftController_start() {
-		PageReference pageRef = Page.TestDraftPagePage;
-		Test.setCurrentPageReference(pageRef);
-		
-		List<User> takers = TestUtilities.getExamTakerUsers(1);
-        insert takers;
-		System.runAs(takers[0]) {
-			TestDraftController examController = createController(takers[0], true);
-			Test.startTest();
-			examController.start();
-			Test.stopTest();
-			System.assertEquals(examController.questionCount, TestUtilities.numberOfQuestions);
-			System.assertEquals(examController.exam.TestDraft_Status__c, examController.progressStatus);
-		}
-    }
-    
-    static testMethod void test_TestDraftController_onLoadPassed() {
-		PageReference pageRef = Page.TestDraftPage;
-		Test.setCurrentPageReference(pageRef);
-		
-		List<User> takers = TestUtilities.getExamTakerUsers(1);
-        insert takers;
-		System.runAs(takers[0]) {
-			TestDraftController examController = createController(takers[0], true);
-			examController.exam.TestDraft_Status__c = examController.completedStatus;
-			Test.startTest();
-			examController.onLoad();
-			Test.stopTest();
-			System.assert(examController.isReview);
-			System.assert(examController.result.contains('PASSED'));
-		}
-    }
-    
-    static testMethod void test_TestDraftController_onLoadFailed() {
-		PageReference pageRef = Page.TestDraftPage;
-		Test.setCurrentPageReference(pageRef);
-		
-		List<User> takers = TestUtilities.getExamTakerUsers(1);
-        insert takers;
-		System.runAs(takers[0]) {
-			TestDraftController examController = createController(takers[0], false);
-			examController.exam.TestDraft_Status__c = examController.completedStatus;
-			Test.startTest();
-			examController.onLoad();
-			Test.stopTest();
-			System.assert(examController.isReview);
-			System.assert(examController.result.contains('FAILED'));
-		}
-    }
-    
+ 
+ 	//Test next functionality without problems
     static testMethod void test_TestDraftController_nextOK() {
 		PageReference pageRef = Page.TestDraftPage;
 		Test.setCurrentPageReference(pageRef);
 		
-		List<User> takers = TestUtilities.getExamTakerUsers(1);
-        insert takers;
-		System.runAs(takers[0]) {
+		List<User> admins = TestUtilities.getExamAdminUsers(1);
+        insert admins;
+		System.runAs(admins[0]) {
 			Test.startTest();
-			TestDraftController examController = createController(takers[0], false);
+			TestDraftController examController = createController(false);
 			examController.actualQuestion = 0;
 			examController.questionWrapper = TestUtilities.createCorrectQuestion();
 			examController.next();
@@ -83,14 +35,15 @@ private class TestDraftControllerTest {
 		}
     }
     
+    //Test next functionality with a generic exception
     static testMethod void test_TestDraftController_next_GenericException() {
 		PageReference pageRef = Page.TestDraftPage;
 		Test.setCurrentPageReference(pageRef);
 		
-		List<User> takers = TestUtilities.getExamTakerUsers(1);
-        insert takers;
-		System.runAs(takers[0]) {
-			TestDraftController examController = createController(takers[0], false);
+		List<User> admins = TestUtilities.getExamAdminUsers(1);
+        insert admins;
+		System.runAs(admins[0]) {
+			TestDraftController examController = createController(false);
 			examController.actualQuestion = 0;
 			examController.questionWrapper = null;
 			Test.startTest();
@@ -102,14 +55,15 @@ private class TestDraftControllerTest {
 		}
     }
     
+    //Test next functionality with an invalid number exception
     static testMethod void test_TestDraftController_next_InvalidNumberException() {
 		PageReference pageRef = Page.TestDraftPage;
 		Test.setCurrentPageReference(pageRef);
 		
-		List<User> takers = TestUtilities.getExamTakerUsers(1);
-        insert takers;
-		System.runAs(takers[0]) {
-			TestDraftController examController = createController(takers[0], false);
+		List<User> admins = TestUtilities.getExamAdminUsers(1);
+        insert admins;
+		System.runAs(admins[0]) {
+			TestDraftController examController = createController(false);
 			examController.actualQuestion = 1;
 			examController.questionWrapper = TestUtilities.createWrongQuestion();
 			Test.startTest();
@@ -122,15 +76,16 @@ private class TestDraftControllerTest {
 		}
     }
     
+    //Test next functionality without problems
     static testMethod void test_TestDraftController_previousOK() {
 		PageReference pageRef = Page.TestDraftPage;
 		Test.setCurrentPageReference(pageRef);
 		
-		List<User> takers = TestUtilities.getExamTakerUsers(1);
-        insert takers;
-		System.runAs(takers[0]) {
+		List<User> admins = TestUtilities.getExamAdminUsers(1);
+        insert admins;
+		System.runAs(admins[0]) {
 			Test.startTest();
-			TestDraftController examController = createController(takers[0], false);
+			TestDraftController examController = createController(false);
 			examController.actualQuestion = 0;
 			examController.questionWrapper = TestUtilities.createCorrectQuestion();
 			examController.previous();
@@ -142,14 +97,15 @@ private class TestDraftControllerTest {
 		}
     }
     
+    //Test previous functionality with a generic exception
     static testMethod void test_TestDraftController_previous_GenericException() {
 		PageReference pageRef = Page.TestDraftPage;
 		Test.setCurrentPageReference(pageRef);
 		
-		List<User> takers = TestUtilities.getExamTakerUsers(1);
-        insert takers;
-		System.runAs(takers[0]) {
-			TestDraftController examController = createController(takers[0], false);
+		List<User> admins = TestUtilities.getExamAdminUsers(1);
+        insert admins;
+		System.runAs(admins[0]) {
+			TestDraftController examController = createController(false);
 			examController.actualQuestion = 0;
 			examController.questionWrapper = null;
 			Test.startTest();
@@ -161,14 +117,15 @@ private class TestDraftControllerTest {
 		}
     }
     
+    //Test previous functionality with an invalid number exception
     static testMethod void test_TestDraftController_previous_InvalidNumberException() {
 		PageReference pageRef = Page.TestDraftPage;
 		Test.setCurrentPageReference(pageRef);
 		
-		List<User> takers = TestUtilities.getExamTakerUsers(1);
-        insert takers;
-		System.runAs(takers[0]) {
-			TestDraftController examController = createController(takers[0], false);
+		List<User> admins = TestUtilities.getExamAdminUsers(1);
+        insert admins;
+		System.runAs(admins[0]) {
+			TestDraftController examController = createController(false);
 			examController.actualQuestion = 1;
 			examController.questionWrapper = TestUtilities.createWrongQuestion();
 			Test.startTest();
@@ -181,15 +138,16 @@ private class TestDraftControllerTest {
 		}
     }
 
+	//Test review functionality without problems
     static testMethod void test_TestDraftController_reviewOK() {
 		PageReference pageRef = Page.TestDraftPage;
 		Test.setCurrentPageReference(pageRef);
 		
-		List<User> takers = TestUtilities.getExamTakerUsers(1);
-        insert takers;
-		System.runAs(takers[0]) {
+		List<User> admins = TestUtilities.getExamAdminUsers(1);
+        insert admins;
+		System.runAs(admins[0]) {
 			Test.startTest();
-			TestDraftController examController = createController(takers[0], false);
+			TestDraftController examController = createController(false);
 			examController.actualQuestion = 0;
 			examController.questionWrapper = TestUtilities.createCorrectQuestion();
 			examController.review();
@@ -201,14 +159,15 @@ private class TestDraftControllerTest {
 		}
     }
     
+    //Test review functionality with a generic exception
     static testMethod void test_TestDraftController_review_GenericException() {
 		PageReference pageRef = Page.TestDraftPage;
 		Test.setCurrentPageReference(pageRef);
 		
-		List<User> takers = TestUtilities.getExamTakerUsers(1);
-        insert takers;
-		System.runAs(takers[0]) {
-			TestDraftController examController = createController(takers[0], false);
+		List<User> admins = TestUtilities.getExamAdminUsers(1);
+        insert admins;
+		System.runAs(admins[0]) {
+			TestDraftController examController = createController(false);
 			examController.actualQuestion = 0;
 			examController.questionWrapper = null;
 			Test.startTest();
@@ -219,7 +178,8 @@ private class TestDraftControllerTest {
 			System.assert(errors.size() > 0);
 		}
     }
-  */  
+ 	
+ 	//Test review functionality with an invalid number exception
     static testMethod void test_TestDraftController_review_InvalidNumberException() {
 		PageReference pageRef = Page.TestDraftPage;
 		Test.setCurrentPageReference(pageRef);
@@ -237,6 +197,62 @@ private class TestDraftControllerTest {
 			List<ErrorLog__c> errors = [Select Id from ErrorLog__c limit 1];
 			System.assertEquals(errors.size(), 0);
 			System.assert(!examController.isReview);
+		}
+    }
+    
+    //Test next functionality with a passed result
+    static testMethod void test_ExaminationsController_finishPassed() {
+		PageReference pageRef = Page.TestDraftPage;
+		Test.setCurrentPageReference(pageRef);
+		
+		List<User> admins = TestUtilities.getExamAdminUsers(1);
+        insert admins;
+		System.runAs(admins[0]) {
+			TestDraftController examController = createController(true);
+			examController.exam.Test_Status__c = examController.draftStatus;
+			examController.isReview = true;
+			Test.startTest();
+			examController.finish();
+			Test.stopTest();
+			System.assert(examController.isReview);
+			System.assert(examController.result.contains('PASSED'));
+		}
+    }
+    
+    //Test finish functionality with a failed result
+    static testMethod void test_ExaminationsController_finishFailed() {
+		PageReference pageRef = Page.TestDraftPage;
+		Test.setCurrentPageReference(pageRef);
+		
+		List<User> admins = TestUtilities.getExamAdminUsers(1);
+        insert admins;
+		System.runAs(admins[0]) {
+			TestDraftController examController = createController(false);
+			examController.exam.Test_Status__c = examController.draftStatus;
+			examController.isReview = true;
+			Test.startTest();
+			examController.finish();
+			Test.stopTest();
+			System.assert(examController.isReview);
+			System.assert(examController.result.contains('FAILED'));
+		}
+    }
+    
+    //Test finish functionality going to review
+    static testMethod void test_ExaminationsController_finishReview() {
+		PageReference pageRef = Page.TestDraftPage;
+		Test.setCurrentPageReference(pageRef);
+		
+		List<User> admins = TestUtilities.getExamAdminUsers(1);
+        insert admins;
+		System.runAs(admins[0]) {
+			TestDraftController examController = createController(false);
+			examController.exam.Test_Status__c = examController.draftStatus;
+			examController.isReview = false;
+			Test.startTest();
+			examController.finish();
+			Test.stopTest();
+			System.assertEquals(examController.result,null);
 		}
     }
 }

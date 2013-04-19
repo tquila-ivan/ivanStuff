@@ -9,6 +9,10 @@
         <name>AccountOwnerSharingRule</name>
     </types>
     <types>
+        <members>Account</members>
+        <name>AccountSharingRules</name>
+    </types>
+    <types>
         <members>*</members>
         <name>ApexClass</name>
     </types>
@@ -33,6 +37,10 @@
         <name>CampaignOwnerSharingRule</name>
     </types>
     <types>
+        <members>Campaign</members>
+        <name>CampaignSharingRules</name>
+    </types>
+    <types>
         <members>*</members>
         <name>CaseCriteriaBasedSharingRule</name>
     </types>
@@ -41,12 +49,20 @@
         <name>CaseOwnerSharingRule</name>
     </types>
     <types>
+        <members>Case</members>
+        <name>CaseSharingRules</name>
+    </types>
+    <types>
         <members>*</members>
         <name>ContactCriteriaBasedSharingRule</name>
     </types>
     <types>
         <members>*</members>
         <name>ContactOwnerSharingRule</name>
+    </types>
+    <types>
+        <members>Contact</members>
+        <name>ContactSharingRules</name>
     </types>
     <types>
         <members>*</members>
@@ -144,6 +160,10 @@
         <name>LeadOwnerSharingRule</name>
     </types>
     <types>
+        <members>Lead</members>
+        <name>LeadSharingRules</name>
+    </types>
+    <types>
         <members>*</members>
         <name>Letterhead</name>
     </types>
@@ -154,6 +174,10 @@
     <types>
         <members>*</members>
         <name>OpportunityOwnerSharingRule</name>
+    </types>
+    <types>
+        <members>Opportunity</members>
+        <name>OpportunitySharingRules</name>
     </types>
     <types>
         <members>*</members>

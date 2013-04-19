@@ -9,6 +9,7 @@
  */
 public without sharing class ExaminationsController {
 
+	//Declaration of properties
 	public Examination__c exam;
 	public String completedStatus = 'Completed';
 	public String progressStatus {
@@ -71,6 +72,7 @@ public without sharing class ExaminationsController {
 	
 	public String result {get;set;}
 	
+	//Constructor of the class
 	public ExaminationsController (ApexPages.StandardController stdController) {
 		
 		exam = (Examination__c) stdController.getRecord();
@@ -100,12 +102,14 @@ public without sharing class ExaminationsController {
 		}
 	}
 	
+	//Start functionality
 	public void start() {
 		exam.Examination_Status__c = progressStatus;
 		update exam;
 		actualQuestion = 1;
 	}
 	
+	//onLoad functionality (to manage an already finished exam)
 	public void onLoad () {
 		if(exam.Examination_Status__c == completedStatus)
 		{
@@ -114,6 +118,7 @@ public without sharing class ExaminationsController {
 		}	
 	}
 	
+	//next() functionality
 	public void next() {
 		try {
 			if (questionWrapper == null)
@@ -133,6 +138,7 @@ public without sharing class ExaminationsController {
 		}
 	}
 	
+	//previous() functionality
 	public void previous() {
 		try {
 			if (questionWrapper == null)
@@ -152,6 +158,7 @@ public without sharing class ExaminationsController {
 		}
 	}
 	
+	//review() functionality
 	public void review() {
 		try {
 			if (questionWrapper == null)
@@ -171,10 +178,12 @@ public without sharing class ExaminationsController {
 		}
 	}
 	
+	//Remove review page and go to question
 	public void goToQuestion() {
 		isReview = false;
 	}
 	
+	//If in the review page, calculate scores and finish, else, go to review
 	public void finish () {
 		
 		if (isReview) {

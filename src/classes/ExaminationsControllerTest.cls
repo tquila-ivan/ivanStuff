@@ -1,9 +1,10 @@
 /**
- * 
+ * Test class that tests the examination controller behaviour
  */
 @isTest
 private class ExaminationsControllerTest {
 
+	//Common method to create controller
 	private static ExaminationsController createController(User taker, Boolean passed) {
 		
 		Examination__c examination = TestUtilities.createExamination(taker, passed);
@@ -12,7 +13,8 @@ private class ExaminationsControllerTest {
 		ExaminationsController examController = new ExaminationsController(standardCtlr);
 		return examController;
 	}
-
+	
+	//Test start exam
     static testMethod void test_ExaminationsController_start() {
 		PageReference pageRef = Page.Examination;
 		Test.setCurrentPageReference(pageRef);
@@ -29,6 +31,7 @@ private class ExaminationsControllerTest {
 		}
     }
     
+    //Test onload with a finished and passed exam
     static testMethod void test_ExaminationsController_onLoadPassed() {
 		PageReference pageRef = Page.Examination;
 		Test.setCurrentPageReference(pageRef);
@@ -46,6 +49,7 @@ private class ExaminationsControllerTest {
 		}
     }
     
+    //Test onload with a finished and failed exam
     static testMethod void test_ExaminationsController_onLoadFailed() {
 		PageReference pageRef = Page.Examination;
 		Test.setCurrentPageReference(pageRef);
@@ -63,6 +67,7 @@ private class ExaminationsControllerTest {
 		}
     }
     
+    //Test next functionality without problems
     static testMethod void test_ExaminationsController_nextOK() {
 		PageReference pageRef = Page.Examination;
 		Test.setCurrentPageReference(pageRef);
@@ -83,6 +88,7 @@ private class ExaminationsControllerTest {
 		}
     }
     
+    //Test next functionality with a generic exception
     static testMethod void test_ExaminationsController_next_GenericException() {
 		PageReference pageRef = Page.Examination;
 		Test.setCurrentPageReference(pageRef);
@@ -102,6 +108,7 @@ private class ExaminationsControllerTest {
 		}
     }
     
+    //Test next functionality with an invalid number exception
     static testMethod void test_ExaminationsController_next_InvalidNumberException() {
 		PageReference pageRef = Page.Examination;
 		Test.setCurrentPageReference(pageRef);
@@ -122,6 +129,7 @@ private class ExaminationsControllerTest {
 		}
     }
     
+    //Text previous functionality without problems
     static testMethod void test_ExaminationsController_previousOK() {
 		PageReference pageRef = Page.Examination;
 		Test.setCurrentPageReference(pageRef);
@@ -142,6 +150,7 @@ private class ExaminationsControllerTest {
 		}
     }
     
+    //Test previous functionality with a generic exception
     static testMethod void test_ExaminationsController_previous_GenericException() {
 		PageReference pageRef = Page.Examination;
 		Test.setCurrentPageReference(pageRef);
@@ -161,6 +170,7 @@ private class ExaminationsControllerTest {
 		}
     }
     
+    //Test previous functionality with an invalid number exception
     static testMethod void test_ExaminationsController_previous_InvalidNumberException() {
 		PageReference pageRef = Page.Examination;
 		Test.setCurrentPageReference(pageRef);
@@ -181,6 +191,7 @@ private class ExaminationsControllerTest {
 		}
     }
 
+	//Test review functionality without problems
     static testMethod void test_ExaminationsController_reviewOK() {
 		PageReference pageRef = Page.Examination;
 		Test.setCurrentPageReference(pageRef);
@@ -201,6 +212,7 @@ private class ExaminationsControllerTest {
 		}
     }
     
+    //Test review functionality with a generic exception
     static testMethod void test_ExaminationsController_review_GenericException() {
 		PageReference pageRef = Page.Examination;
 		Test.setCurrentPageReference(pageRef);
@@ -220,6 +232,7 @@ private class ExaminationsControllerTest {
 		}
     }
     
+    //Test review functionality with an invalid number exception
     static testMethod void test_ExaminationsController_review_InvalidNumberException() {
 		PageReference pageRef = Page.Examination;
 		Test.setCurrentPageReference(pageRef);

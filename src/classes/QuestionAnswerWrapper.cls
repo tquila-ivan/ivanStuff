@@ -1,5 +1,9 @@
+/*
+ * Class that wraps Questions and Answers together to handle them better
+ */
 public with sharing class QuestionAnswerWrapper {
 
+	//Controlling properties
 	public Question__c question {get;set;}
 	public List<AnswerWrapper> answerWrapperList {
 		get {
@@ -24,12 +28,15 @@ public with sharing class QuestionAnswerWrapper {
 		set;
 	}
 	
+	//Constructor
 	public QuestionAnswerWrapper (Question__c originalQuestion) {
 		question = originalQuestion;
 		for (Answer__c ans : originalQuestion.Answers__r) {
 			answerWrapperList.add(new AnswerWrapper(ans));
 		}
 	}
+	
+	//Utility methods
 	
 	public List<Answer__c> getAnswers() {
 		List<Answer__c> resultList = new List<Answer__c>();
@@ -48,6 +55,8 @@ public with sharing class QuestionAnswerWrapper {
 		return resultList;
 	}
 	
+	//Answer wrapper class to map the numbers to letters using a Custom Setting to give flexibility in future
+	// mappings to different characters
 	public class AnswerWrapper {
 		public String letter {
 			get {

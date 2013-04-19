@@ -73,6 +73,7 @@ public without sharing class TestDraftController {
 	
 	public String result {get;set;}
 	
+	//Constructor of the class
 	public TestDraftController (ApexPages.StandardController stdController) {
 		
 		exam = (Test_Form__c) stdController.getRecord();
@@ -103,6 +104,7 @@ public without sharing class TestDraftController {
 		}
 	}
 	
+	//Next functionality
 	public void next() {
 		try {
 			if (questionWrapper == null)
@@ -122,6 +124,7 @@ public without sharing class TestDraftController {
 		}
 	}
 	
+	//Previous functionality
 	public void previous() {
 		try {
 			if (questionWrapper == null)
@@ -141,6 +144,7 @@ public without sharing class TestDraftController {
 		}
 	}
 	
+	//Review functionality
 	public void review() {
 		try {
 			if (questionWrapper == null)
@@ -160,10 +164,12 @@ public without sharing class TestDraftController {
 		}
 	}
 	
+	//Exit review and go to question
 	public void goToQuestion() {
 		isReview = false;
 	}
 	
+	//Finish and calculate score if in review screen, go to review if not
 	public void finish () {
 		
 		if (isReview) {

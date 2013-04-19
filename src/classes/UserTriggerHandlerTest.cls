@@ -1,28 +1,44 @@
 /**
- * This class contains unit tests for validating the behavior of Apex classes
- * and triggers.
- *
- * Unit tests are class methods that verify whether a particular piece
- * of code is working properly. Unit test methods take no arguments,
- * commit no data to the database, and are flagged with the testMethod
- * keyword in the method definition.
- *
- * All test methods in an organization are executed whenever Apex code is deployed
- * to a production organization to confirm correctness, ensure code
- * coverage, and prevent regressions. All Apex classes are
- * required to have at least 75% code coverage in order to be deployed
- * to a production organization. In addition, all triggers must have some code coverage.
- * 
- * The @isTest class annotation indicates this class only contains test
- * methods. Classes defined with the @isTest annotation do not count against
- * the organization size limit for all Apex scripts.
- *
- * See the Apex Language Reference for more information about Testing and Code Coverage.
+ * Test class for the UserTrigger Handler
  */
 @isTest
 private class UserTriggerHandlerTest {
+	//Property to provoke an invalid Id exception
+	private static final String fakeAccount = '0000';
 
-    static testMethod void myUnitTest() {
-        // TO DO: implement unit test
+	//Test method that evaluates that everything wnet correctly
+    static testMethod void testBulkInsertOk() {
+        List<User> usersToInsert = TestUtilities.createBulkData(null);
+        Boolean success = true;
+        Test.startTest();
+        try {
+        	insert usersToInsert;
+        }
+        catch(Exception ex) {
+        	success = true;
+        }
+        Test.stopTest();
+        
+        List<Examination__c> examinationsCreated = [Select Id from Examination__c];
+        System.assert(success);
+        System.assertEquals(examinationsCreated.size(),TestUtilities.numberOfTestForms * usersToInsert.size());
+    }
+    
+    //Test method that evaluates that an exception occurred
+    static testMethod void testBulkInsertException() {
+        List<User> usersToInsert = TestUtilities.createBulkData(fakeAccount);
+        Boolean success = true;
+        Test.startTest();
+        try {
+        	insert usersToInsert;
+        }
+        catch (Exception ex) {
+        	success = false;
+        }
+        Test.stopTest();
+        
+        List<Examination__c> examinationsCreated = [Select Id from Examination__c];
+        System.assert(!success);
+        System.assertEquals(examinationsCreated.size(),0);
     }
 }

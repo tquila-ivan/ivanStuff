@@ -2,6 +2,9 @@
  * Class that handles the events from the triggers for the User Object
  * For this assignment it will only handle the After Insert event to create examinations
  * for the users if they require so.
+ *
+ * NOTE: I ENFORCED A LIMITATION ON THE USERS, ACCOUNTS AND TEST FORMS OPEN AT THE TIME OF AN GIVEN LOAD.
+ * 		 THIS IS DUE TO PENDING OPTIMIZATIONS THAT I DIDN'T HAVE TIME TO FINISH
  */
 public with sharing class UserTriggerHandler {
 	
@@ -9,13 +12,20 @@ public with sharing class UserTriggerHandler {
 	private Boolean isExecuting = false;
     private Integer BatchSize = 0; 
     private Set<Id> questionIds = new Set<Id>();
-    private List<Id> antiqueQuestions = new List<Id>();
+    private List<oldQuestionWrap> antiqueQuestions {
+    	get {
+    		if (antiqueQuestions == null)
+    			antiqueQuestions = new List<oldQuestionWrap>();
+    		return antiqueQuestions;    			
+    	}
+    	set;
+    }
     private List<Id> usersToShare = new List<Id>();
     private List<Id> usersToShareExaminations = new List<Id>();
     private List<Question__c> newQuestions = new List<Question__c>();
     private List<Answer__c> newAnswers = new List<Answer__c>();
 	private List<Examination__c> newExaminations = new List<Examination__c>();
-    private Map<Id,Id> oldQnewQ = new Map<Id,Id>();
+    private Map<String,Id> oldQnewQ = new Map<String,Id>();
     private Map<Id,Id> newQnewUser = new Map<Id,Id>();
     private Map<Id,Id> newExaminationNewUser = new Map<Id,Id>();
 	private static final String takerProfileName = 'Custom: Exam Taker';
@@ -51,9 +61,20 @@ public with sharing class UserTriggerHandler {
 			}
 		}
 		
-		//If there are users in the list, proceed to generate their examinations
-		if (usersToProcess.size() > 0)
-			generateExaminations(usersToProcess, accounts);
+		//If there are a proper number of users and accounts in the load, proceed to generate their examinations
+		if (accounts.size() > 1 || usersToProcess.size() > 10) {
+			//In case of an error fail all users, show message to contact administrator
+			for (User userError : usersToProcess) {
+				userError.addError(System.Label.LimitationLabel);
+			}
+			//Create error log for the administrator to be able to know what happened
+			ErrorLog__c errorLog = new ErrorLog__c(Object__c = Schema.SObjectType.User.getName(), Description__c = 'Limitations --- Accounts: ' + accounts.size() + ' --- Users: ' + usersToProcess.size());
+			insert errorLog;
+		}
+		else {
+			if (usersToProcess.size() > 0)
+				generateExaminations(usersToProcess, accounts);
+		}
     }
     
     /*
@@ -80,6 +101,11 @@ public with sharing class UserTriggerHandler {
 						 from Test_Form__c
 						 where Test_Status__c = 'Open' and Account__c in :accounts];
 			
+			//Enforcing the limitation on just one test form open at any given load 
+			//(This is taking textually the assumption in the assignment that the lists are provided orderd by exam.)
+			if(openForms.size() > 1) 
+				throw new Commons.LimitationException(System.Label.LimitationLabel);
+			
 			//Populate the set of Test Form Ids
 			for (Test_Form__c previousForm : openForms) {
 				formIds.add(previousForm.Id);
@@ -105,9 +131,12 @@ public with sharing class UserTriggerHandler {
 			//Populate a map that will be formed for a Test Form Id and the questions for that Test Form
 			List<Question__c> tempQuestions = new List<Question__c>();
 			for (Question__c oldQuestion : oldQuestions) {
+				//tempQuestions = new List<Question__c>();
+				//tempQuestions.add(oldQuestion);
 				if (formQuestionsMap.get(oldQuestion.Test_Form__c) == null)
 					formQuestionsMap.put(oldQuestion.Test_Form__c, new List<Question__c>{oldQuestion});
 				else {
+					
 					tempQuestions = new List<Question__c>();
 					tempQuestions = formQuestionsMap.get(oldQuestion.Test_Form__c);
 					tempQuestions.add(oldQuestion);
@@ -117,7 +146,7 @@ public with sharing class UserTriggerHandler {
 			
 			//Begin Creation of new objects
 			Examination__c tempExamination = new Examination__c();
-			
+			String tempFirstName = '';
 			//Loop the new Users to create each of them the examinations needed
 			for (User newUser : usersToProcess) {
 				//Loop the open Test Forms for every user
@@ -126,7 +155,9 @@ public with sharing class UserTriggerHandler {
 					if (newUser.Account_ID__c == form.Account__c) {
 						tempExamination = new Examination__c();
 						//Populate Examination Details
-						tempExamination.Name = newUser.FirstName + ' ' + newUser.LastName + ' - ' + form.Name;
+						if (newUser.FirstName != null)
+							tempFirstName = newUser.FirstName + ' ';
+						tempExamination.Name = tempFirstName + newUser.LastName + ' - ' + form.Name;
 						tempExamination.Test_Form__c = form.Id;
 						tempExamination.Examination_Taker__c = newUser.Id;
 						//The Owner is the same as the form's
@@ -135,12 +166,13 @@ public with sharing class UserTriggerHandler {
 						newExaminations.add(tempExamination);
 						//Add the user id to share in a list in the same position as the examination, to be used later
 						usersToShareExaminations.add(newUser.Id);
+						List<Question__c> questionsToAdd = formQuestionsMap.get(form.Id);
 						//Generate questions for the Examination and the User to be shared with
-						generateQuestions(formQuestionsMap.get(form.Id), tempExamination.Name, newUser.Id);
+						generateQuestions(questionsToAdd, tempExamination.Name, newUser.Id);
 					}
 				}
 			}
-			
+
 			//Insert Examinations and questions created
 			insert newExaminations;
 			insert newQuestions;
@@ -155,7 +187,7 @@ public with sharing class UserTriggerHandler {
 			//Set shares for the questions and populate map of old Id - New Id to link answers afterwards, using the lists created previously
 			List<Question__Share> qShares = new List<Question__Share>();
 			for (Integer i = 0; i < newQuestions.size(); i++) {
-				oldQnewQ.put(antiqueQuestions[i],newQuestions[i].Id);
+				oldQnewQ.put(antiqueQuestions[i].question.Id + antiqueQuestions[i].examName,newQuestions[i].Id);
 				qShares.add(generateQuestionShare(newQuestions[i].Id,usersToShare[i]));
 			}
 			
@@ -166,7 +198,7 @@ public with sharing class UserTriggerHandler {
 			}
 			
 			//Generate the answers for the questions
-			generateAnswers(oldQuestions);
+			generateAnswers(antiqueQuestions);
 			
 			//Insert Answers
 			insert newAnswers;
@@ -184,7 +216,6 @@ public with sharing class UserTriggerHandler {
 			ErrorLog__c errorLog = new ErrorLog__c(Object__c = Schema.SObjectType.User.getName(), Description__c = ex.getMessage() + ' -- Stack: ' + ex.getStackTraceString());
 			insert errorLog;
 		}
-
     }
     
     /*
@@ -196,7 +227,9 @@ public with sharing class UserTriggerHandler {
      */ 
     private void generateQuestions(List<Question__c> tempQuestionList, String ExaminationName, Id userIdToShare) {
 		//Declare and initialize control variables
-		Integer tempListCount = tempQuestionList.size();
+		List<Question__c> listToRemove = new List<Question__c>();
+		listToRemove.addAll(tempQuestionList);
+		Integer tempListCount = listToRemove.size();
 		Integer tempIndex;
 		RandomValue random;
 		Question__c tempQuestion = new Question__c();
@@ -205,7 +238,7 @@ public with sharing class UserTriggerHandler {
 		//Loop the question list using indexes from higher to lower
 		for (Integer i = tempListCount;i>0; i--) {
 			//Get the random value and it's index in a wrapper class 
-			random = getRandomSObject(tempQuestionList);
+			random = getRandomSObject(listToRemove);
 			tempQuestion = (Question__c) random.value;
 			tempIndex = random.index;
 			//Populate the new question with the values from the original question
@@ -220,11 +253,12 @@ public with sharing class UserTriggerHandler {
 			//Populate new question List
 			newQuestions.add(tempNewQuestion);
 			//Populate old Ids to match new questions in the same random position (to be used in linking answers to questions afterwards)
-			antiqueQuestions.add(tempQuestion.Id);
+			//tempQuestion.Examination__r = new Examination__c(Name = ExaminationName);
+			antiqueQuestions.add(new oldQuestionWrap(ExaminationName,tempQuestion));
 			//Populate a list of users in the same position as the questions, in order to link the shares afterwards
 			usersToShare.add(userIdToShare);
 			//Remove the question for the original temporal list, to continue randomizing
-			tempQuestionList.remove(tempIndex);
+			listToRemove.remove(tempIndex);
 		}
     }
     
@@ -233,7 +267,7 @@ public with sharing class UserTriggerHandler {
      *
      * @param questions List of questions from the original forms
      */ 
-    private void generateAnswers(List<Question__c> questions) {
+    private void generateAnswers(List<oldQuestionWrap> questions) {
     	//Declare and initialize control variables
     	Answer__c tempAnswer = new Answer__c();
     	Answer__c tempNewAnswer = new Answer__c();
@@ -241,12 +275,14 @@ public with sharing class UserTriggerHandler {
     	Integer tempListCount;
     	RandomValue random;
     	Integer tempIndex;
-    	
+    	String tempExaminationName = '';
     	//Loop questions to generate answers in random orders
-    	for (Question__c question : questions) {
+    	for (oldQuestionWrap questionWrap : questions) {
     		//Get Answer list and count
-    		tempAnswerList = question.Answers__r;
+    		tempAnswerList = new List<Answer__c>();
+    		tempAnswerList.addAll(questionWrap.question.Answers__r);
     		tempListCount = tempAnswerList.size();
+    		tempExaminationName = questionWrap.examName;
     		//Loop answer in decreasing orders
 	    	for (Integer i = tempListCount;i>0; i--) {
 	    		//Get the random value and it's index in a wrapper class 
@@ -258,7 +294,7 @@ public with sharing class UserTriggerHandler {
 	    		tempNewAnswer.Name = tempAnswer.Name;
 	    		tempNewAnswer.Number__c = i;
 	    		//Link the original answer to the new question using the map created previously
-	    		tempNewAnswer.Question__c = oldQnewQ.get(tempAnswer.Question__c);
+	    		tempNewAnswer.Question__c = oldQnewQ.get(tempAnswer.Question__c + tempExaminationName);
 	    		tempNewAnswer.Answer__c = tempAnswer.Answer__c;
 	    		tempNewAnswer.Correct__c = tempAnswer.Correct__c;
 	    		//Add new answer to insert list and remove from temporal one to continue randomizing
@@ -358,6 +394,17 @@ public with sharing class UserTriggerHandler {
 		RandomValue (Integer i, sObject so) {
 			index = i;
 			value = so;
+		}
+	}
+	
+	private class oldQuestionWrap {
+		String examName {get;set;}
+		Question__c question {get;set;}
+		
+		//CONSTRUCTOR
+		oldQuestionWrap (String en, Question__c qi) {
+			examName = en;
+			question = qi;
 		}
 	}
 }

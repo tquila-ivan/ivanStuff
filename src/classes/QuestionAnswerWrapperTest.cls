@@ -1,5 +1,5 @@
 /**
- * 
+ * Test class that tests QuestionAnswerWrapper functionality
  */
 @isTest
 private class QuestionAnswerWrapperTest {

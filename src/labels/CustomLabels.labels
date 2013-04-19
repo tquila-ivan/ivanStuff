@@ -36,6 +36,20 @@
         <value>Please contact your administrator, an unexpected error has occurred</value>
     </labels>
     <labels>
+        <fullName>InvalidQuestion</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InvalidQuestion</shortDescription>
+        <value>The selected question is not valid. An unknown error has ocurred</value>
+    </labels>
+    <labels>
+        <fullName>LimitationLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LimitationLabel</shortDescription>
+        <value>There are limitations in the upload of users. They have to be uploaded by groups of 10 and for every customer separately. Also Remember that you have to have to have open only one Test Form at every time, with a maximum of 30 questions each.</value>
+    </labels>
+    <labels>
         <fullName>MarkReviewLabel</fullName>
         <language>en_US</language>
         <protected>false</protected>
