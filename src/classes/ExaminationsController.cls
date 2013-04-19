@@ -9,15 +9,15 @@
  */
 public without sharing class ExaminationsController {
 
-	private Examination__c exam;
-	private static final String completedStatus = 'Completed';
+	public Examination__c exam;
+	public String completedStatus = 'Completed';
 	public String progressStatus {
 		get {
 			return 'In Progress';
 		}
 	}
 	
-	private static final String newStatus = 'New';
+	private String newStatus = 'New';
 	
 	public Integer actualQuestion {
 		get {
@@ -116,6 +116,8 @@ public without sharing class ExaminationsController {
 	
 	public void next() {
 		try {
+			if (questionWrapper == null)
+				throw new Commons.InvalidQuestionException(System.Label.InvalidQuestion);
 			actualQuestion = Commons.next(questionWrapper, actualQuestion);
 		}
 		catch (Commons.InvalidNumberSelectedException ex) {
@@ -133,6 +135,8 @@ public without sharing class ExaminationsController {
 	
 	public void previous() {
 		try {
+			if (questionWrapper == null)
+				throw new Commons.InvalidQuestionException(System.Label.InvalidQuestion);
 			actualQuestion = Commons.previous(questionWrapper, actualQuestion);
 		}
 		catch (Commons.InvalidNumberSelectedException ex) {
@@ -150,7 +154,9 @@ public without sharing class ExaminationsController {
 	
 	public void review() {
 		try {
-			isReview = Commons.review(questionWrapper, actualQuestion);
+			if (questionWrapper == null)
+				throw new Commons.InvalidQuestionException(System.Label.InvalidQuestion);
+			isReview = Commons.review(questionWrapper);
 		}
 		catch (Commons.InvalidNumberSelectedException ex) {
 			ApexPages.addMessages(ex);

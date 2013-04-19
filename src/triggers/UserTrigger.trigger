@@ -11,9 +11,4 @@ trigger UserTrigger on User (after insert, after update) {
     if (trigger.isAfter && trigger.isInsert) {
         handler.OnAfterInsert(trigger.new);
     }
-
-	//TESTING
-    if (trigger.isAfter && trigger.isUpdate) {
-        handler.OnAfterInsert(trigger.new);
-    }
 }

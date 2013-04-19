@@ -1,13 +1,14 @@
 public without sharing class Commons {
 	
 	public class InvalidNumberSelectedException extends Exception {}
+	public class InvalidQuestionException extends Exception {}
 	
 	public static resultClass calculateResult(sObject exam) {
 		Integer correctAnswers = 0;
 		Integer totalQuestions = 0;
 		//Requery to make sure it's the last snapshot of the examination or Test Form
 		
-		String soqlQuery = 'Select (Select Number_of_Correct_Answers__c, Number_Correctly_Selected__c from Questions__r),';
+		String soqlQuery = 'Select (Select Correct__c from Questions__r),';
 		Double passPercent;
 		
 		if (exam.getsObjectType() == Examination__c.sObjectType) {
@@ -37,7 +38,7 @@ public without sharing class Commons {
 	private static Integer getCorrectAnswers (List<Question__c> questions) {
 		Integer correctAnswers = 0;
 		for(Question__c question : questions) {
-			if (question.Number_of_Correct_Answers__c == question.Number_Correctly_Selected__c) {
+			if (question.Correct__c == 1) {
 				correctAnswers ++;
 			}
 		}
@@ -69,7 +70,7 @@ public without sharing class Commons {
 		return actualQuestion - 1;
 	}
 	
-	public static Boolean review(QuestionAnswerWrapper questionWrapper, Integer actualQuestion) {
+	public static Boolean review(QuestionAnswerWrapper questionWrapper) {
 		updateQuestion(questionWrapper);
 		return true;
 	}

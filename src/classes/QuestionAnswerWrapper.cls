@@ -14,7 +14,7 @@ public with sharing class QuestionAnswerWrapper {
 			String result = '';
 			result += question.Question_Number__c + ': ';
 			for (AnswerWrapper ansW : getSelectedAnswers()) {
-				if (result == question.Question_Number__c + '. ')
+				if (result == question.Question_Number__c + ': ')
 					result += ansW.letter;
 				else
 					result += ' ' + ansW.letter;

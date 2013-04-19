@@ -105,6 +105,8 @@ public without sharing class TestDraftController {
 	
 	public void next() {
 		try {
+			if (questionWrapper == null)
+				throw new Commons.InvalidQuestionException(System.Label.InvalidQuestion);
 			actualQuestion = Commons.next(questionWrapper, actualQuestion);
 		}
 		catch (Commons.InvalidNumberSelectedException ex) {
@@ -122,6 +124,8 @@ public without sharing class TestDraftController {
 	
 	public void previous() {
 		try {
+			if (questionWrapper == null)
+				throw new Commons.InvalidQuestionException(System.Label.InvalidQuestion);
 			actualQuestion = Commons.previous(questionWrapper, actualQuestion);
 		}
 		catch (Commons.InvalidNumberSelectedException ex) {
@@ -139,7 +143,9 @@ public without sharing class TestDraftController {
 	
 	public void review() {
 		try {
-			isReview = Commons.review(questionWrapper, actualQuestion);
+			if (questionWrapper == null)
+				throw new Commons.InvalidQuestionException(System.Label.InvalidQuestion);
+			isReview = Commons.review(questionWrapper);
 		}
 		catch (Commons.InvalidNumberSelectedException ex) {
 			ApexPages.addMessages(ex);

@@ -12,7 +12,7 @@
 			
 			<apex:pageBlockSection collapsible="false" title="{!questionLabel}" columns="1" rendered="{!(Examination__c.Examination_Status__c == progressStatus && actualQuestion > 0 && !isReview && !isDone)}" >
 				<apex:outputPanel id="question">
-					<apex:outputText value="{!questionWrapper.question.Question__c}" />
+					<apex:outputText value="{!questionWrapper.question.Question__c}"  escape="false"/>
 					<br />
 					<br />
 					<apex:outputText value="{!selectLabel}" />
@@ -24,7 +24,7 @@
 							<apex:inputCheckBox value="{!answerWrapper.answer.Selected__c}"/>
 						</apex:column>
 						<apex:column >
-							<apex:outputText value="{!answerWrapper.letterAndAnswer}" />
+							<apex:outputText value="{!answerWrapper.letterAndAnswer}" escape="false"/>
 						</apex:column>
 					</apex:dataTable>
 				</apex:outputPanel>
